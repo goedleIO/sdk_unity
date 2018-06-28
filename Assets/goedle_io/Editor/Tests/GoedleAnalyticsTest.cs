@@ -481,8 +481,6 @@ namespace goedle_sdk.detail
                 Assert.AreEqual(expected[key], parameters[key], "Wrong parameter value for {0}. Uri: {1}", parameters[key], uri);
             }
         }
-
-
     }
 
 
