@@ -142,6 +142,16 @@ namespace goedle_sdk
             goedle_analytics.reset_user_id(new_user_id.ToString("D"));
         }
 
+
+		/// <summary>
+        /// Disable Tracking
+        /// </summary>
+
+        public void disableTracking()
+        {
+			this.adaptation_only = true;
+        }
+
 		#region internal
         public detail.GoedleAnalytics gio_interface;
         public detail.GoedleAnalytics goedle_analytics

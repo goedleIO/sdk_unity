@@ -20,7 +20,13 @@ namespace goedle_sdk.detail
         public GoedleUtils(){
             
         }
-
+		public static bool isStringUsable(string testString){
+			if (String.IsNullOrEmpty(testString))
+				return false;
+			if (String.IsNullOrWhiteSpace(testString))
+                return false;
+			return true;
+		}
         public static string userHash(string strToEncrypt)
         {
             UTF8Encoding ue = new UTF8Encoding();

@@ -85,9 +85,12 @@ namespace goedle_sdk.detail
             track(GoedleConstants.EVENT_NAME_INIT, null, null, true, null, null, goedleUploadHandler);
         }
 
+
+
         public void track(string event_name, string event_id, string event_value, bool launch, string trait_key, string trait_value, IGoedleUploadHandler goedleUploadHandler )
         {
-            if (!_adaptation_only)
+			
+			if (!_adaptation_only && GoedleUtils.isStringUsable(_api_key) && GoedleUtils.isStringUsable(_app_key))
             {
 
                 bool ga_active = !String.IsNullOrEmpty(_ga_tracking_id);

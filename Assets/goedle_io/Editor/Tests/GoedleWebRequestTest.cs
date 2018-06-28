@@ -34,6 +34,7 @@ namespace goedle_sdk.detail
         public string _strategy_string = "{\"config\": { \"scenario\": \"seashore\" , \"wind_speed\": \"fast\"}, \"id\":1}";
         public string _url = null;
         public bool _staging = false;
+		public bool _content = true;
 
         public GoedleHttpClient _gio_http_client = (new GameObject("GoedleHTTPClient")).AddComponent<GoedleHttpClient>();
         IGoedleDownloadBuffer _gdb = null;
@@ -63,6 +64,8 @@ namespace goedle_sdk.detail
             _GA_CD_EVENT = "group";
             _url = "test_url";
             _staging = false;
+			_content = true;
+
             _gw = Substitute.For<IGoedleWebRequest>();
             _guh = Substitute.For<IGoedleUploadHandler>();
             _gdb = Substitute.For<IGoedleDownloadBuffer>();
@@ -79,7 +82,8 @@ namespace goedle_sdk.detail
                     _gio_http_client , 
                     _gw, 
                     _guh, 
-                    _staging);
+                    _staging,
+				    _content);
         }
 
         [UnityTest]

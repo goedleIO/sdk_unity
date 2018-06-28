@@ -36,6 +36,8 @@ namespace goedle_sdk.detail
         public string _strategy_string = "{\"config\": { \"scenario\": \"seashore\" , \"wind_speed\": \"fast\"}, \"id\":1}";
         public string _url = null;
         public bool _staging = false;
+		public bool _content_adaptation = false;
+
         public GoedleHttpClient _gio_http_client;
         IGoedleDownloadBuffer _gdb = null;
         IGoedleUploadHandler _guh = null;
@@ -70,12 +72,12 @@ namespace goedle_sdk.detail
             _gw = Substitute.For<IGoedleWebRequest>();
 
         }
-
+        
 
         [Test]
         public void checkBehaviorGoedleWebRequestPOST()
         {
-            _gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging);
+            _gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
 
             _gw.unityWebRequest.Returns(new UnityWebRequest());
             _gw.isHttpError.Returns(false);
@@ -92,7 +94,7 @@ namespace goedle_sdk.detail
         [Test]
         public void checkBehaviorGoedleWebRequestAnalyticsIdentifyPOST()
         {
-            _gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging);
+			_gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
 
             string stringContent = null;
             _guh.add(Arg.Do<string>(x => stringContent = x));
@@ -110,7 +112,7 @@ namespace goedle_sdk.detail
         [Test]
         public void checkBehaviorGoedleWebRequestAnalyticsEventPOST()
         {
-            _gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging);
+			_gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
 
             string stringContent = null;
             _guh.add(Arg.Do<string>(x => stringContent = x));
@@ -128,7 +130,7 @@ namespace goedle_sdk.detail
         [Test]
         public void checkBehaviorGoedleWebRequestAnalyticsEventIdPOST()
         {
-            _gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging);
+			_gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
 
             string stringContent = null;
             _guh.add(Arg.Do<string>(x => stringContent = x));
@@ -148,7 +150,7 @@ namespace goedle_sdk.detail
         [Test]
         public void checkBehaviorGoedleWebRequestAnalyticsEventValuePOST()
         {
-            _gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging);
+			_gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
 
             string stringContent = null;
             _guh.add(Arg.Do<string>(x => stringContent = x));
@@ -169,7 +171,7 @@ namespace goedle_sdk.detail
         [Test]
         public void checkBehaviorGoedleWebRequestAnalyticsGroupPOST()
         {
-            _gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging);
+			_gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
 
             string stringContent = null;
             _guh.add(Arg.Do<string>(x => stringContent = x));
@@ -191,7 +193,7 @@ namespace goedle_sdk.detail
         [Test]
         public void checkBehaviorGoedleWebRequestAnalyticsTrackStaging()
         {
-            _gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, true);
+			_gio_object = new GoedleAnalytics(_api_key, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, true, _content_adaptation);
 
             string stringContent = null;
             _guh.add(Arg.Do<string>(x => stringContent = x));
@@ -207,11 +209,11 @@ namespace goedle_sdk.detail
 
             _gw.Received(0).SendWebRequest();
         }
-
+        
         [Test]
         public void checkBehaviorGoedleWebRequestAnalyticsNoTrackWhenApiKeyIsEmpty()
         {
-            _gio_object = new GoedleAnalytics("", _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, true);
+			_gio_object = new GoedleAnalytics("", _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
 
             string stringContent = null;
             _guh.add(Arg.Do<string>(x => stringContent = x));
@@ -224,14 +226,30 @@ namespace goedle_sdk.detail
             _gio_object.track("event", "event_id", "50", _guh);
             _gio_object.set_user_id("test_user", _guh);
             _gw.Received(0).SendWebRequest();
+            
+			_gio_object = new GoedleAnalytics(" ", _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
+
+            stringContent = null;
+            _guh.add(Arg.Do<string>(x => stringContent = x));
+            _gw.isHttpError.Returns(false);
+            _gw.isNetworkError.Returns(false);
+			_gio_object.track("event", _guh);
+
+			_gio_object = new GoedleAnalytics(null, _app_key, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
+
+            stringContent = null;
+            _guh.add(Arg.Do<string>(x => stringContent = x));
+            _gw.isHttpError.Returns(false);
+            _gw.isNetworkError.Returns(false);
+            _gio_object.track("event", _guh);
 
         }
 
         [Test]
         public void checkBehaviorGoedleWebRequestAnalyticsNoTrackWhenAppKeyIsEmpty()
         {
-            _gio_object = new GoedleAnalytics(_api_key, "", _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, true);
-
+			_gio_object = new GoedleAnalytics(_api_key, "", _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
+            
             string stringContent = null;
             _guh.add(Arg.Do<string>(x => stringContent = x));
 
@@ -243,6 +261,26 @@ namespace goedle_sdk.detail
             _gio_object.track("event", "event_id", _guh);
             _gio_object.track("event", "event_id", "50", _guh);
             _gio_object.set_user_id("test_user", _guh);
+            _gw.Received(0).SendWebRequest();
+
+			_gio_object = new GoedleAnalytics(_api_key, " ", _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
+
+            stringContent = null;
+            _guh.add(Arg.Do<string>(x => stringContent = x));
+
+            _gw.isHttpError.Returns(false);
+            _gw.isNetworkError.Returns(false);
+			_gio_object.track("event", _guh);
+			_gw.Received(0).SendWebRequest();
+
+			_gio_object = new GoedleAnalytics(_api_key, null, _user_id, _app_version, _GA_TRACKIND_ID, _app_name, _GA_CD_1, _GA_CD_2, _GA_CD_EVENT, _gio_http_client, _gw, _guh, _staging, _content_adaptation);
+
+            stringContent = null;
+            _guh.add(Arg.Do<string>(x => stringContent = x));
+
+            _gw.isHttpError.Returns(false);
+            _gw.isNetworkError.Returns(false);
+            _gio_object.track("event", _guh);
             _gw.Received(0).SendWebRequest();
 
         }
