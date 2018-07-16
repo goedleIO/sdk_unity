@@ -13,22 +13,8 @@ namespace goedle_sdk.detail
         {
             StartCoroutine(getRequest( url, gwr, staging));
         }
-
-        public void requestStrategy(string url, GoedleAnalytics ga, IGoedleWebRequest gwr, IGoedleDownloadBuffer gdb, bool staging){
-            StartCoroutine(getJSONResponse(url, ga, gwr, gdb, staging));
-        }
-
-        /*
-        public JSONNode getStrategy(IUnityWebRequests www, string url)
-        {
-            CoroutineWithData cd = new CoroutineWithData(this, getJSONRequest(www, url));
-            yield return cd.coroutine;
-            Debug.Log("result is " + cd.result);  //  'success' or 'fail'
-            yield return cd.result;
-            // TODO RETURN JSON from REQUEST
-            //yield return StartCoroutine(getJSONRequest(www, url));
-        }
-        */
+        
+        
         public void sendPost(string url, string authentification, IGoedleWebRequest gwr, IGoedleUploadHandler guh, bool staging)
         {
             StartCoroutine(postJSONRequest(url, authentification, gwr, guh, staging));
@@ -57,56 +43,7 @@ namespace goedle_sdk.detail
             }
         }
 
-        /*
-         Returns an JSONNode object this can be accessed via:
-         CoroutineWithData cd = new CoroutineWithData(this, LoadSomeStuff( ) );
-         yield return cd.coroutine;
-         Debug.Log("result is " + cd.result);  //  'JSONNode'
-         CoroutineWithData is in GoedleUtils
-         */
-        public IEnumerator getJSONResponse(string url, GoedleAnalytics ga, IGoedleWebRequest gwr, IGoedleDownloadBuffer gdb, bool staging)
-        {
-            if (staging)
-            {
-                Debug.Log("Staging is on your get request would look like this:\n" + url);
-            }
-            else
-            {
-                gwr.unityWebRequest = new UnityWebRequest();
-                using (gwr.unityWebRequest)
-                {
-                    gwr.method = "GET";
-                    gwr.url = url;
-                    gwr.downloadHandler = gdb.downloadHandlerBuffer;
-                    yield return gwr.SendWebRequest();
-                    JSONNode strategy_json = null;
-                    if (gwr.isNetworkError || gwr.isHttpError)
-                    {
-                        Debug.Log("{\"error\": {  \"isHttpError\": \"" + gwr.isHttpError + "\",  \"isNetworkError\": \"" + gwr.isNetworkError + "\" } }");
-                        strategy_json = null;
-                    }
-                    else
-                    {
-                        // Show results as text
-                        try
-                        {
-                            Debug.Log("The following strategy was received: " + gdb.text);
-                            strategy_json = JSON.Parse(gdb.text);
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.Log("{\"error\": \" " + e.Message + " \"}");
-                            strategy_json = null;
-                        }
-                        // Or retrieve results as binary data
-                        //byte[] results = client.downloadHandler.data;
-                    }
-                    ga.strategy = strategy_json;
-                    yield break;
-                }
-            }
-        }
-
+      
         public IEnumerator postJSONRequest( string url, string authentification, IGoedleWebRequest gwr, IGoedleUploadHandler guh, bool staging)
 	    {
             if (staging)

@@ -24,7 +24,7 @@ namespace goedle_sdk.detail
         public JSONNode strategy = null;
         IGoedleWebRequest _gwr = null;
         public bool _staging = false;
-        public bool _adaptation_only = false;
+		public bool _tracking_disable = false;
         //private string locale = null;
 
         public GoedleAnalytics(
@@ -41,7 +41,7 @@ namespace goedle_sdk.detail
                 IGoedleWebRequest gwr, 
                 IGoedleUploadHandler guh, 
                 bool staging,
-                bool adaptation_only)//, string locale)
+                bool tracking_disable)//, string locale)
         {
             _api_key = api_key;
             _app_key = app_key;
@@ -55,7 +55,7 @@ namespace goedle_sdk.detail
             _gio_http_client = gio_http_client;
             _gwr = gwr;
             _staging = staging;
-            _adaptation_only = adaptation_only;
+			_tracking_disable = tracking_disable;
             //this.locale = GoedleLanguageMapping.GetLanguageCode (locale);
             track_launch(guh);
         }
@@ -71,14 +71,7 @@ namespace goedle_sdk.detail
             _user_id = user_id;
             track(GoedleConstants.IDENTIFY, null, null, false, null, null, goedleUploadHandler);
         }
-
-        // TODO Blocking Time default  
-        public void requestStrategy(IGoedleDownloadBuffer goedleDownloadBuffer)
-        {
-            GoedleUtils gu = new GoedleUtils();
-            string url = gu.getStrategyUrl(_app_key);
-            _gio_http_client.requestStrategy(url, this, _gwr, goedleDownloadBuffer, _staging);
-        }
+        
 
         public void track_launch(IGoedleUploadHandler goedleUploadHandler)
         {
@@ -90,7 +83,7 @@ namespace goedle_sdk.detail
         public void track(string event_name, string event_id, string event_value, bool launch, string trait_key, string trait_value, IGoedleUploadHandler goedleUploadHandler )
         {
 			
-			if (!_adaptation_only && GoedleUtils.isStringUsable(_api_key) && GoedleUtils.isStringUsable(_app_key))
+			if (!_tracking_disable && GoedleUtils.isStringUsable(_api_key) && GoedleUtils.isStringUsable(_app_key))
             {
 
                 bool ga_active = !String.IsNullOrEmpty(_ga_tracking_id);

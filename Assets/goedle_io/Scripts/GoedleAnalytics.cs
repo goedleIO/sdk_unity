@@ -50,10 +50,8 @@ namespace goedle_sdk
         public int GA_CD_1 = 0;
         [Tooltip("Google Analytics Number of Custom Dimension for Group member. (To set this you need a configured custom dimension in Google Analytics)")]
         public int GA_CD_2 = 0;
-        [Tooltip("Enable (True) / Disable(False) only content adaptation")]
-        public bool ADAPTATION_ONLY = false;
-		[Tooltip("Enable (True) / Disable(False) only tracking")]
-        public bool TRACKING = true;
+		[Tooltip("Disable goedle.io")]
+        public bool TRACKING_DISABLE = false;
         #endregion
         /*! \endcond */
 
@@ -121,18 +119,7 @@ namespace goedle_sdk
             goedle_analytics.set_user_id(user_id, new detail.GoedleUploadHandler());
 		}
 
-
-        /// <summary>
-        /// request strategy from GIO API
-        /// </summary>s
-        public void requestStrategy() 
-        {
-			if (!STAGING)
-            {
-                detail.IGoedleDownloadBuffer goedleDownloadBuffer = new detail.GoedleDownloadBuffer();
-                goedle_analytics.requestStrategy(goedleDownloadBuffer);
-            }
-        }
+     
 
         /// <summary>
         /// Reset user id
@@ -151,7 +138,16 @@ namespace goedle_sdk
 
         public void disableTracking()
         {
-			this.ADAPTATION_ONLY = true;
+			this.TRACKING_DISABLE = true;
+        }
+
+		/// <summary>
+        /// Enable Tracking
+        /// </summary>
+        
+        public void enableTracking()
+        {
+			this.TRACKING_DISABLE = false;
         }
 
 		#region internal
@@ -185,10 +181,7 @@ namespace goedle_sdk
         }
 
 		private void InitGoedle()
-		{
-			if (!TRACKING)
-				ADAPTATION_ONLY = true;
-				
+		{				
             Guid user_id = Guid.NewGuid();
             string app_version = APP_VERSION;
             string app_name = APP_NAME;
@@ -205,7 +198,7 @@ namespace goedle_sdk
             detail.IGoedleUploadHandler goedleUploadHandler = new detail.GoedleUploadHandler();
 			if (gio_interface == null && (!string.IsNullOrEmpty(instance.API_KEY) || !string.IsNullOrEmpty(instance.APP_KEY)))
             {
-				gio_interface = new detail.GoedleAnalytics(API_KEY, APP_KEY, user_id.ToString("D"), app_version, GA_TRACKIND_ID, app_name, GA_CD_1, GA_CD_2, GA_CD_EVENT, detail.GoedleHttpClient.instance, goedleWebRequest, goedleUploadHandler, STAGING, ADAPTATION_ONLY);
+				gio_interface = new detail.GoedleAnalytics(API_KEY, APP_KEY, user_id.ToString("D"), app_version, GA_TRACKIND_ID, app_name, GA_CD_1, GA_CD_2, GA_CD_EVENT, detail.GoedleHttpClient.instance, goedleWebRequest, goedleUploadHandler, STAGING, TRACKING_DISABLE);
                 Debug.Log("goedle.io SDK is initialzied");
             }
 		}
