@@ -290,9 +290,6 @@
     <Reference Include="Owin">
       <HintPath>Assets/goedle_io/Editor/Owin.dll</HintPath>
     </Reference>
-    <Reference Include="WireMock.Net">
-      <HintPath>Assets/goedle_io/Editor/WireMock.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets/goedle_io/Editor/Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -325,7 +322,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\goedle_io\Editor\Tests\GoedleAnalyticsTest.cs" />
     <Compile Include="Assets\goedle_io\Editor\Tests\GoedleAtomTest.cs" />
     <Compile Include="Assets\goedle_io\Editor\Tests\GoedleTrackRequestTest.cs" />
     <Compile Include="Assets\goedle_io\Editor\Tests\GoedleUtilsTest.cs" />
