@@ -1,26 +1,61 @@
 # goedle.io Unity SDK
 
-We now give a brief introduction how easy our plugin for Unity can be implemented. We created a developer friendly SDK and the basic setup just takes about 2 minutes.
+Introduction how the goedle.io plugin for Unity can be implemented. The basic setup just takes about 2 minutes.
 
 ---
 
 To get an APP and API key please signup on [goedle.io](http://www.goedle.io).
 
 ---
+In order to install the Unity SDK for tracking telemetric data from Unity, the SDK has to be downloaded.
 
-1st step - Add the goedle_io Unity Package as Asset ([download](http://www.goedle.io/unity/goedle_io_sdk.unitypackage)).
+![Download goedle.io Unity SDK](http://www.goedle.io/unity/3-goedle_credentials.png "Download goedle.io Unity SDK")
 
-![Add the goedle.io Unity Packages manual](http://www.goedle.io/unity/1-goedle_add_asset.png "Add the goedle.io Unity Packages manual")
+The SDK comes as UnityPackage, therefore it can directly be imported into a Unity project as Asset. 
+To add the SDK as Asset, it has to be imported as custom packages, this can be seen in Figure 1.7.
+
+![Import of the GIO Unity SDK as Asset](http://www.goedle.io/unity/import1.png "Import of the GIO Unity SDK as Asset")
+
+Afterward selecting the downloaded package, the Scripts folder has to be checked. The Plugin and Materials folder is automatically imported. 
+
+![Selecting the Script folder](http://www.goedle.io/unity/import2.png "Selecting the Script folder")
+
+Once the package is available as Asset, a loader object and two manager objects have to be added. These objects are necessary so that the SDK is available over the whole runtime of the Unity application. 
+Adding of the objects can be simply done via drag and drop. Depending at which position in the lifecycle of the Unity application the SDK should be available, the objects have to be dragged to the corresponding scene. For instance, if the SDK should be accessible in the start scene, the loader and the manager objects have to be dragged in this scene. The objects are pre configured, so one has only to add credentials to the GoedleManager object to authorize at the GIO backend. 
+The loader object and manager objects are shown, these object can be found in the goedle_io asset, under goedle_io -> Scripts. 
+
+![Preconfigured game objects to initialize the GIO Unity SDK](http://www.goedle.io/unity/gameobjects1.png "Preconfigured game objects to initialize the GIO Unity SDK")
+
+The following object have to be dragged to a scene:
+
+* **GoedleLoader** - The loader initializes the GoedleManager, this object is has to be available to track data. Furthermore, the GoedleHttpClient is initialized to send data to the GIO backend.
+* **GoedleManager** - This object holds all tracking functions and the authorization interface. As well as a check box to run the SDK in staging mode or to disable the tracking. Additionally one can add a Universal Analytics ID to send data to Google Analytics. The GoedleManager loads the GoedleAnalytics script which contains a wrapper and the interface to initialize and programmatically control and configure the GIO SDK.
+* **GoedleHttpClient** - The GoedleHttpClient client, is called after executing a tracking function to send data to the GIO backend. The GoedleHttpClient client also sends data via coroutines to reduce the load on the main thread.
+
+Once the objects are added to the scene. The credentials for the GIO backend have to be added. These are namely the APP key and the API key. As well as additional meta information to further describe the Unity application and the Universal Analytics configuration. Figure 1.10 shows the interface which can be accessed by selecting the GoedleManger. 
 
 
-2nd step - Add “Goedle Loader" to your first scene. 
+![Interface to configure the GIO Unity SDK](http://www.goedle.io/unity/sdk_interface.png "Interface to configure the GIO Unity SDK")
 
-3rd and last step - You have to fill your credentials, APP and API key in.
+The configuration options for the SDK:
 
-![Add App and API key](http://www.goedle.io/unity/3-goedle_credentials.png "Add APP and API key")
+| Type        | Default Value      | Importance  |Description|
+| ----------- |:------------------:| -----------:|----------:|
+| STAGING | unselected | optional | This checkbox is on default unselected, it can be used to switch between the live API of the GIO backend and and an text based output of the tracking. If the box is selected, one can see the tracking events in the console and they are not sent to the GIO backend. |
+| APP KEY | empty | mandatory | This key is needed to authorize at the GIO backend. |
+| API KEY | empty | mandatory | This key is needed to authorize at the GIO backend. |
+| APP VERSION | empty | optional | The app version is used to distinguish between different version of an Unity application. |
+| APP NAME | empty | optional | This app name should be a human readable string to identify the Unity application. |
+| GA Tracking ID | empty | optional | The universal Analytics Tracking ID. The id has to be taken from a Google Analytics property. The property has to be created in advance. |
+| GA CD EVENT | empty | optional | Google Analytics allows to make use of custom dimensions, which help to further segment tracked data. If one once to use a custom dimension, the name has to be set. This allows the SDK to handle a tracking call with the used event name as custom dimension. The GIO SDK supports up to two custom dimensions. |
+| GA CD 1 | empty | optional | The first custom dimension, which can be later accessed through Google Analytics. |
+| GA CD 2 | empty | optional | The second custom dimension, which can be later accessed through Google Analytics. |
+| TRACKING DISABLE | unselected | optional |  This checkbox allows to disable the tracking, this can be used for instance to opt out a user. |
 
+Beside the graphical interface, all fields of the interface from can be added programmatically. 
 
-Afterward, you are ready to start and add the tracking points all over neuralgic positions in your Unity app.
+After the (mandatory) fields are set in the interface or programmatically, the SDK is ready for usage.
+
 ## Tracking Notation
 
 To track data from a Unity application with the goedle.io SDK, the tracking points have to be set in the source code of the Unity application. Therefore, a certain tracking notation is recommended. Besides the event tracking functionality, the SDK holds additional functions, to respect the privacy and to identify a user. 
