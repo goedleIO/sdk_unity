@@ -41,7 +41,7 @@ Once the objects are added to the scene. The credentials for the GIO backend hav
 The configuration options for the SDK:
 
 | Type        | Default Value      | Importance  |Description|
-| ----------- |:------------------:| -----------:|----------:|
+| ----------- |------------------| -----------|----------|
 | STAGING | unselected | optional | This checkbox is on default unselected, it can be used to switch between the live API of the GIO backend and and an text based output of the tracking. If the box is selected, one can see the tracking events in the console and they are not sent to the GIO backend. |
 | APP KEY | empty | mandatory | This key is needed to authorize at the GIO backend. |
 | API KEY | empty | mandatory | This key is needed to authorize at the GIO backend. |
