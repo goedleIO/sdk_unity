@@ -21,153 +21,139 @@ To get an APP and API key please signup on [goedle.io](http://www.goedle.io).
 
 
 Afterward, you are ready to start and add the tracking points all over neuralgic positions in your Unity app.
+## Tracking Notation
 
-# Tracking Concept
+To track data from a Unity application with the goedle.io SDK, the tracking points have to be set in the source code of the Unity application. Therefore, a certain tracking notation is recommended. Besides the event tracking functionality, the SDK holds additional functions, to respect the privacy and to identify a user. 
 
-We typically use two main variables to track an event. The first is the action, e.g., view, share, like these variables are the specific actions which are done by a user. The second variable further specifies the action e.g., product, intro, category, user. These two variables are concatenated and delimited with a `.`. Note however that a specifier is not mandatory and we also support hierarchies with more than two levels.
+### Event
+There are two main variables to track an event. The first is the action, e.g., view, share, like these variables are the specific actions which are done by a user. The second variable specifies the object of the action e.g., task, question, scene. These two variables are concatenated and delimited with a ".". Note however that a specifier is not mandatory and we also support hierarchies with more than two levels. The tracking origins in the Object-Notation framework, which also used by Segment or Google Analytics.
 
-Furthermore, we offer a custom field `event_id`.
+### Event ID
+Furthermore, a event can be specified with an event id. As an example, if one wants to track the view-event of a scene, the event would be view, the specifier would be the scene and the event id the scene id X235123
+### Event Value
+If one has to track the information of the duration of a certain task or the result of a answered question or if the event has a certain value, an additional parameter can be passed. The event_value. The event name would be finished.task, the event id could be task-12 and the event value 69. Where 69 would be the duration in seconds.
 
-As an example, if you would want to track the view-event of a product, the event would be `view`, the specifier would be `product` and the event id `235123`
+### Game State
+For certain behavioral analysis passive game changes have to be tracked. These can be seen as a stream of data which represent the value state of the Unity application. A passive game change is the adjusting of values which are done by the application automatically, depending on the game design. To identify a game state, the event should be called “game.state”, the event id is in this case, is the passively changed variable. And the event value, the value of the variable.
 
-If your event has a certain value, like a duration or a reached player level, we provide the custom field `event_value`.
-
-The event name would be `finish.level`, the event id could be `level-12` and the event value something like `65`.
-
-Where 65 would be the duration in seconds.
-
-
-## Game State
-
-If you want to track a game state. We need additional preparation of your code.
-You need two global variables
+## Tracking Functions
+To call the track function, the goedle.io SDK has to be integrated in the header of a Unity/ C# class file.
+This can be achieved through:
 ```
-    // Game state config
-    private float nextActionTime = 0.0f;
-    // 15.0f means a period of 15 seconds, this is complete sufficent to track a game state.
-    public float period = 15.0f;
+using goedle_sdk;
 ```
-We have to add the periodical call to the `Update()` function.
+There are three different tracking signatures which cover the in Section 4.1 described tracking notations, while the `game.state` has the same signature as the event value tracking call.
+
+**Tracking a single event**
+
+```
+GoedleAnalytics.track ("<event_name>");
+```
+*Example*
+```
+GoedleAnalytics.track ("start.game");
+```
+
+**Tracking a single event with an identifier**
+
+```
+GoedleAnalytics.track ("<event_name>", "<event_id>");
+```
+*Example*
+
+```
+GoedleAnalytics.track("reached.level", "level-2");
+```
+
+**Tracking a single event with an identifier and a value**
+```
+GoedleAnalytics.track("<event_name>","<event_id>","<event_value>");
+```
+*Example*
+```
+GoedleAnalytics.track("finish.level", "level-12", "65");
+```
+
+**Tracking the game state**
+
+To track a continuous stream of events, the code of the Unity application needs additional preparation. This is the polling interval, which can be implemented with a counter (nextActionTime), that is increased after every action and the duration of one interval (period).
+
+An example configuration with a 15 seconds interval would look like this:
+
+```
+// Game state config
+private float nextActionTime = 0.0f; // 15.0f means a period of 15 seconds, this is complete sufficient to track a game state.
+public float period = 15.0f;
+```
+
+Afterwards the tracking has to be periodically called. This can be achieved by using the update function of a Unity class.
 
 ```
 void Update () {
 // Your code ...
         if (Time.time > nextActionTime ) {
-            nextActionTime += period;
-            GoedleAnalytics.track ("game.state", "stamina", "15");
-            GoedleAnalytics.track ("game.state", "mana", "40");
-            GoedleAnalytics.track ("game.state", "level", "5");
-            GoedleAnalytics.track ("game.state", "pvp", "true");
-            GoedleAnalytics.track ("game.state", "joker", "78");
+nextActionTime += period;
+       	GoedleAnalytics.track("game.state","health", "100");
+        GoedleAnalytics.track("game.state","mana","400");
         }
 }
 ```
+## Additional Functionalities
 
-Please name the event `game.state`, so it can be identified as such.
-
-# Tracking Code
-
-Add to the header of your class file 
+### Groups
+If a one wants to track information about a class, school or a team, the SDK supports so called groups. A group consists of a type, for instance `class` and a group name `1A`.  Here is the complete call:
 
 ```
-using goedle_sdk;
+GoedleAnalytics.group ("<group_type>", "<group_name>");
 ```
 
-We have three different tracking signatures:
+*Example*
+```
+GoedleAnalytics.group ("school", "EA");
+```
+### Traits
 
-## Event Tracking
+To have the opportunity to further personalize the learning experience, additional information about a user can be helpful. Currently the goedle.io backend supports three different kinds of personal user information. Namely the last- / first name and the email address. It is important that these kind of information are only transmitted when user explicitly gave the permission to track these kind of information. The SDK only offers this function to track the information, but the developer should responsible use the functionality.
+It is important that correct naming convention is used, otherwise the information can not be stored and processed.
 
-Tracking a single event.
-
+**first_name**
 ```
-GoedleAnalytics.track ("<event_name>");
+GoedleAnalytics.trackTraits("first_name","<play_first_name>");
 ```
-
-Example
+*Example*
 ```
-GoedleAnalytics.track ("start.game");
-```
-
----
-Tracking a single event with an identifier.
-
-```
-GoedleAnalytics.track ("<event_name>", "<event_id>");
-```
-Example
-```
-GoedleAnalytics.track ("reached.level", "level-2");
+GoedleAnalytics.trackTraits("first_name","Hans");
 ```
 
----
-Tracking a single event with an identifier and a value.
-
+**last_name**
 ```
-GoedleAnalytics.track ("<event_name>", "<event_id>", "<event_value>");
+GoedleAnalytics.trackTraits("last_name","<player_last_name>");
 ```
-Example
+*Example*
 ```
-GoedleAnalytics.track ("finish.round", "round_12", "65");
+GoedleAnalytics.trackTraits("last_name", "Smith");
 ```
 
-## User data
+**email**
+```
+GoedleAnalytics.trackTraits("email", "<email_address>");
+```
+*Example*
+```
+GoedleAnalytics.trackTraits("email", "hans@gmail.com");
+```
 
-### User id
+### Privacy
+goedle.io is GDPR ready and respects the privacy. Therefore, the SDK hold functions to control the data which is transmitted to the goedle.io infrastructure.
+
+#### Opt Out
+To respect the privacy, it is necessary to add an opt-out function. This can be done via the interface or via a function call.  
+GoedleAnalytics.disableTracking ();
+This function disables the goedle.io SDK, and even if tracking points are set in the code, nothing is transmitted to the goedle.io backend or to Google Analytics.
+
+#### User ID
+If a user id is not available the goedle.io SDK creates automatically in the background a user id. But, the automatically created user ids are only session based. This is done, because of privacy reasons. Otherwise, the developer has to set explicit the user id in the code. For instance, if the user id is created on personal user information. To set a user id the function setUserId() can be called:
 
 ```
 GoedleAnalytics.setUserId ("<unique_user_id>");
-```
-Example
-```
-GoedleAnalytics.setUserId ("<player_777>");
-```
-
-If you don't set a user id, we create one for you. But, the automatically created user ids are only session based. This is done, because of privacy reasons.
-
-### Traits
-
-!!! Information For now, we only support "first_name" and "last_name" as a trait and additional user information.
-
----
-
-
-Please use `"first_name"` is, otherwise the first_name will not be recognized as a user information.
-```
-GoedleAnalytics.trackTraits ("first_name", "<play_first_name>");
-```
-Example
-```
-GoedleAnalytics.trackTraits ("first_name", "Hans");
-```
-
----
-Please use `"last_name"` is, otherwise the last_name will not be recognized as a user information.
-```
-GoedleAnalytics.trackTraits ("last_name", "<player_last_name>");
-```
-
-Example
-```
-GoedleAnalytics.trackTraits ("last_name", "Smith");
-```
-
----
-Please use `"email"` is, otherwise the email will not be recognized as a user information.
-
-```
-GoedleAnalytics.trackTraits ("email", "<email_address>");
-```
-
-Example
-```
-GoedleAnalytics.trackTraits ("email", "hans@gmail.com");
-```
-### Group
-Please use `"group"` is, otherwise a group will not be recognized as a group.
-```
-GoedleAnalytics.track ("group", "<group_type>", "<group_name>");
-```
-Example
-```
-GoedleAnalytics.track ("group", "guild", "Moon Guard");
 ```
