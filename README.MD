@@ -4,15 +4,17 @@ Introduction how the goedle.io plugin for Unity can be implemented. The basic se
 
 ---
 
-To get an APP and API key please signup on [goedle.io](http://www.goedle.io).
+To get an APP and API key please reach out to us <support@goedle.io>.
 
 ---
 In order to install the Unity SDK for tracking telemetric data from Unity, the SDK has to be downloaded.
 
-![Download goedle.io Unity SDK](http://www.goedle.io/unity/3-goedle_credentials.png "Download goedle.io Unity SDK")
+![Download goedle.io Unity SDK](https://github.com/goedleIO/sdk_unity/blob/master/goedle_io_sdk.unitypackage)
+
+---
 
 The SDK comes as UnityPackage, therefore it can directly be imported into a Unity project as Asset. 
-To add the SDK as Asset, it has to be imported as custom packages, this can be seen in Figure 1.7.
+To add the SDK as Asset, it has to be imported as custom packages.
 
 ![Import of the GIO Unity SDK as Asset](http://www.goedle.io/unity/import1.png "Import of the GIO Unity SDK as Asset")
 
@@ -22,7 +24,7 @@ Afterward selecting the downloaded package, the Scripts folder has to be checked
 
 Once the package is available as Asset, a loader object and two manager objects have to be added. These objects are necessary so that the SDK is available over the whole runtime of the Unity application. 
 Adding of the objects can be simply done via drag and drop. Depending at which position in the lifecycle of the Unity application the SDK should be available, the objects have to be dragged to the corresponding scene. For instance, if the SDK should be accessible in the start scene, the loader and the manager objects have to be dragged in this scene. The objects are pre configured, so one has only to add credentials to the GoedleManager object to authorize at the GIO backend. 
-The loader object and manager objects are shown, these object can be found in the goedle_io asset, under goedle_io -> Scripts. 
+The loader object and manager objects are shown, these object can be found in the goedle_io asset, under `goedle_io -> Scripts`. 
 
 ![Preconfigured game objects to initialize the GIO Unity SDK](http://www.goedle.io/unity/gameobjects1.png "Preconfigured game objects to initialize the GIO Unity SDK")
 
