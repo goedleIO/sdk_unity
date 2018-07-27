@@ -8,8 +8,7 @@ To get an APP and API key please reach out to us <support@goedle.io>.
 
 ---
 In order to install the Unity SDK for tracking telemetric data from Unity, the SDK has to be downloaded.
-
-![Download goedle.io Unity SDK](https://github.com/goedleIO/sdk_unity/blob/master/goedle_io_sdk.unitypackage)
+<https://github.com/goedleIO/sdk_unity/blob/master/goedle_io_sdk.unitypackage>
 
 ---
 
